@@ -123,7 +123,8 @@ const String key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 I will use these endpoint and key variables later in void loop().
 
 ### GET request
-Next I did a GET request in the loop. This will get me data about the delays/calamities. 
+Next I needed to do a GET request in the loop. This will get me data about the delays/calamities.
+This is the code I used with the HttpClient library. 
 
 ```
 void loop() {
@@ -152,12 +153,49 @@ void loop() {
 
 ### Error :triangular_flag_on_post:
 
-I kept getting errors about the HttpClient library, especially the line 'HttpClient http;' in the loop:
+I kept getting this error about HttpClient:
 #### :rotating_light: No matching function for call to 'HttpClient::HttpClient()'
-#### :rotating_light: 'HttpClient' was not declared in this scope 
-#### :rotating_light: ...
 
-<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/error0.PNG" width=75% height=75%>
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/errorhttp.PNG" width=80% height=80%>
+
+I found an answer on the Arduino forum: https://forum.arduino.cc/t/no-matching-function-to-call-for-httpclient/688817
+
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/answer.PNG" width=80% height=80%>
+
+This linked me to the libraries Github page where I could find more information. The error was partly fixed by including the EthernetClient library and initializing the http client this way:
+
+```
+WiFiClient c;
+HttpClient http(c);
+```
+
+### Error :triangular_flag_on_post:
+But I still had another error with this library: 
+#### :rotating_light: 'class HttpClient' has no member named 'begin'
+<!--#### :rotating_light: call to 'HTTPClient::begin' declared with attribute error: obsolete API, use ::begin(WiFiClient, url)-->
+
+First I tried deleting and redownloading the library but that didn't do anything.
+I couldn't figure it out so I decided to use the method of this source: https://randomnerdtutorials.com/esp8266-nodemcu-http-get-post-arduino/ and use these libraries instead:
+
+```
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+#include <WiFiClientSecure.h>
+#include <Arduino_JSON.h>
+```
+
+### Error :triangular_flag_on_post:
+After that I didn't get any error messages anymore but I also couldn't request anything.  
+
+I tried to give the URL & API key in the following line:
+
+```
+http.begin(client, endpoint + key);
+```
+
+But something must be wrong, because I cannot request anything and get the 'Error on HTTP request' message in the Serial Monitor.
+
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/httpbegin.PNG" width=50% height=50%> <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/reqerror.PNG" width=40% height=40%>
 
 ## Sources :card_file_box:
 - https://playground.arduino.cc/Code/Time/
@@ -165,3 +203,4 @@ I kept getting errors about the HttpClient library, especially the line 'HttpCli
 - https://www.ns.nl/reisinformatie/ns-api
 - https://www.dfrobot.com/blog-917.html
 - https://www.youtube.com/watch?v=HUjFMVOpXBM
+- https://randomnerdtutorials.com/esp8266-nodemcu-http-get-post-arduino/
