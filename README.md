@@ -13,7 +13,7 @@ After that I want the ledstrip to turn on 10 minutes earlier when there is a cal
 - Arduino IDE & Wifi (not 5G)
 
 ## 1. Turning on the ledstrip :bulb:
-If you haven't connected you ledstrip yet, this is how I did it:
+If you haven't connected you ledstrip to your esp8266 yet, this is how I did it:
 The 5V wire goes to 3V3, the GND wire goed to GND, and the middle wire (Din) goes to D5.
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/wires.PNG" width=40% height=40%> 
