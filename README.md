@@ -113,7 +113,7 @@ The NS API website has a lot of great code examples, but unfortunately none of t
 So I had to look for other sources on how to connect and get data from this API, and started with this manual that explains how to get weather data: https://www.dfrobot.com/blog-917.html. I also watched this video on how to connect to an API using an ESP8266: https://www.youtube.com/watch?v=HUjFMVOpXBM. This one was very helpful but only covered part of what I needed to do.
 
 ### 3.2 - Get the connection string & API key
-On the NS API website you can find the connection string for the API you want to connect to. I need to put this string and our API key in my code:
+On the NS API website you can find the connection string for the API you want to connect to. I need to declare this URL and the API key in my code:
 
 ```
 const String endpoint = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions[?type][&isActive]";
