@@ -10,26 +10,30 @@ After that I want the ledstrip to turn on 10 minutes earlier when there is a cal
 ### What do you need for this project?
 - NodeMCU esp8266 board
 - RGB LED strip
-- Install: Arduino IDE, Telegram app, Adafruit IO account
-- Wifi (not 5G)
+- Arduino IDE & Wifi (not 5G)
 
-## 1. Turning on the ledstrip. :bulb:
-The first step is to make the ledstrip turn on at a certain time. How can my ESP know the time?
-
-First I uploaded the example code Simple from Adafruit Neopixel to my board to test whether my ledstrip turns on.
+## 1. Turning on the ledstrip :bulb:
 I changed my pin to D5 and my number of pixels to 14. I you haven't connected you ledstrip yet, this is how I did it:
-
 The 5V wire goes to 3V3, the GND wire goed to GND, and the middle wire (Din) goes to D5.
 
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/wires.PNG" width=40% height=40%> 
+
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/IMG_20221026_122143.jpg" width=20% height=20%>
+
+First I uploaded the example code Simple from Adafruit Neopixel to my board to test whether my ledstrip turns on.
+
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/example2.PNG" width=60% height=60%> <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/IMG_20221026_122045.jpg" width=30% height=30%>
 
 Succes! :tada:
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
 
-Next I had to add the time, and to do this I used the Time library by Michael Margolis. I read the documentation for this library here: https://playground.arduino.cc/Code/Time/
+## 2. Setting a turn-on time :clock9:
+The next step is to make the ledstrip turn on at a certain time.How can I make my ESP know the time? To do this I used the Time library by Michael Margolis. I read the documentation for this library here: https://playground.arduino.cc/Code/Time/
 
-I needed to set my timezone & connect to the internet to get the time from the Network Time Protocol (NTP). To test my code I added this function to print the day of the week and current time:
+I needed to set my timezone & connect to the internet to get the time from the Network Time Protocol (NTP). You can find your timezone string on this site: https://remotemonitoringsystems.ca/time-zone-abbreviations.php
+
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/timezone.PNG" width=60% height=60%>
+
+To test my code I added this function to print the day of the week and current time:
 
 ```
 void showTime(tm localTime) {
@@ -50,9 +54,9 @@ void showTime(tm localTime) {
 }
 ```
 
-It printed this info to the Serial Monitor:
+It printed this info to the Serial Monitor every second:
 
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/printtime.PNG" width=40% height=40%>
 
 Great! :tada:
 
@@ -80,7 +84,7 @@ When I run this code, the lights will go on at the set time and also print out t
       }
     }
 ```
-To test the code I put in the current time + 1 min like this:
+To test the code I put in the current hour and minute like this:
 
 ```
 if (localTime.tm_hour == 14 && localTime.tm_min == 32)
@@ -88,11 +92,12 @@ if (localTime.tm_hour == 14 && localTime.tm_min == 32)
 
 Do the lights go on at the set time?
 
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/ontime.PNG" width=60% height=60%>
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/IMG_20221026_143456.jpg" width=30% height=30%>
 
 Yes they do! :tada:
 
-## 2. Optional: Controlling the ledstrip on the web. :computer:
+## 3. Optional: Controlling the ledstrip on the web. :computer:
 Now we can set the ledstrip to a certain time, it would be great if we could also set and change the turn-on time in a web app. 
 
 Adafruit IO / Telegram
@@ -116,7 +121,7 @@ To make this code work for me I had to insert my Bot token, user ID, and network
 ### What does this code do?
 This code checks for new messages every second, it then also checks the chat_id to see if the message is from you or if it should be ignored. If it's from you, it saves the message in a text variable and checks its content, and when it receives the **/...** message it ... and sends a confirmation message.
 
-## 3. NS Reisinformatie API. :bullettrain_side:
+## 4. NS Reisinformatie API. :bullettrain_side:
 We can now set a time for out ledstrip to turn on, just like a real alarm clock. :tada:
 But if we want to make this even more interesting, we should use data from the NS Reisinformatie API.
 To use this API you need to create a free account at https://apiportal.ns.nl/signin and subscribe to their Reisinformatie API. After diong this you can find your api key on your profile page.
