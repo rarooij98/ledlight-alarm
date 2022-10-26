@@ -106,16 +106,53 @@ To use this API you need to create a free account at https://apiportal.ns.nl/sig
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/api.PNG" width=40% height=40%> <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/apikey.PNG" width=50% height=50%>
 
-### Next step
 The NS API website has a lot of great code examples, but unfortunately none of them are for Arduino/C++.
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/codexamples.PNG" width=50% height=50%>
 
 So I had to look for other sources on how to connect and get data from this api, and I used this manual that explains how to get weather data: https://www.dfrobot.com/blog-917.html. I also watched this video on how to connect to an API using an ESP8266 (or any arduino): https://www.youtube.com/watch?v=HUjFMVOpXBM. This one was very helpful but only covered part of what I needed to do.
 
+### Connection string & API key
+On the NS API website you can find the connection string for the API you want to connect to. I need to put this string and our api key in our code:
+
+```
+const String endpoint = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions[?type][&isActive]";
+const String key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+```
+
+I will use these endpoint and key variables later in void loop().
+
+### GET request
+Next I did a GET request in the loop. This will get me data about the delays/calamities. 
+
+```
+void loop() {
+ 
+  if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
+    
+    HttpClient http;
+ 
+    http.begin(endpoint + key); //Specify the URL
+    int httpCode = http.GET();  //Make the request
+ 
+    if (httpCode > 0) { //Check for the returning code
+ 
+        String payload = http.getString();
+        Serial.println(httpCode);
+        Serial.println(payload);
+      }
+ 
+    else {
+      Serial.println("Error on HTTP request");
+    }
+ 
+    http.end(); //Free the resources
+  }
+```
+
 ### Error :triangular_flag_on_post:
 
-When following the examples listed above, I kept getting errors about the HttpClient library:
+I kept getting errors about the HttpClient library, especially the line 'HttpClient http;' in the loop:
 #### :rotating_light: No matching function for call to 'HttpClient::HttpClient()'
 #### :rotating_light: 'HttpClient' was not declared in this scope 
 #### :rotating_light: ...
