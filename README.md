@@ -124,7 +124,7 @@ I will use these endpoint and key variables later in void loop().
 
 ### 3.3 - Do a GET request
 Next I needed to do a GET request. This will get me data about the delays/calamities.
-I used with the HttpClient library for this. 
+I used the HttpClient library from Adrian McEwen for this (github: https://github.com/amcewen/HttpClient).
 
 ```
 void loop() {
@@ -191,7 +191,7 @@ I tried to give the URL & API key in the following line:
 http.begin(client, endpoint + key);
 ```
 
-But something must be wrong, because I cannot request anything and get the 'Error on HTTP request' message in the Serial Monitor.
+But something must be wrong with this, because I cannot request anything and get the 'Error on HTTP request' message in the Serial Monitor.
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/httpbegin.PNG" width=50% height=50%> <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/reqerror.PNG" width=40% height=40%>
 
@@ -199,11 +199,11 @@ But something must be wrong, because I cannot request anything and get the 'Erro
 
 I think I had to change the host URL before trying to GET. 
 
-The URL looks like this: "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions[?type][&isActive]"
+The URL looks like this: 
+https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions[?type][&isActive]
 
 But you have to fill in the values for **type** and **isActive**, like this:
-
-"https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions?type=calamity&isActive=true"
+https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions?type=calamity&isActive=true
 
 I also added the hosts fingerprint, you can use this with WiFiClientSecure as extra verification.
 
@@ -212,13 +212,14 @@ I also added the hosts fingerprint, you can use this with WiFiClientSecure as ex
 client.setFingerprint(HOST_FINGERPRINT);
 ```
 
-<img src="" width=50% height=50%> //screenshot fingerprint
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/fingerprint.png" width=80% height=80%>
+You can find the fingerprint of a page by clicking on the lock in the address bar and then clicking certificate.
 
 ### Error :triangular_flag_on_post:
 Now I have a 401 message instead of 404. Something's been found, but I'm not allowed to see it.
 #### :rotating_light: "401 Access denied due to missing subscription key. Make sure to include subscription key when making requests to an API."
 
-<img src="" width=50% height=50%> //screenshot error 401
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/401.PNG" width=100% height=100%>
 
 ### Authentication & headers
 
@@ -239,7 +240,7 @@ http.addHeader("Authorization:", "Basic key", true);
 
 Now I get access to the data! Finally a 200 message! :tada:
 
-<img src="" width=50% height=50%> //screenshot 200 message
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/200finally.PNG" width=100% height=100%>
 
 
 ### Conclusion
