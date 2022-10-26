@@ -175,7 +175,7 @@ I found an answer on the Arduino forum: https://forum.arduino.cc/t/no-matching-f
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/answer.PNG" width=80% height=80%>
 
-This linked me to the libraries Github page where I could find more information. The error was partly fixed by including the EthernetClient library and initializing the http client this way:
+This linked me to the libraries Github page where I could find more information. The error was that I didn't declare a client, this was fixed by including the EthernetClient library and initializing the http client this way:
 
 ```
 WiFiClient c;
