@@ -1,7 +1,7 @@
 # Ledlight alarm clock :alarm_clock:
 How to turn on a ledstrip based on time (or using a public transport api)?
 
-My challenge was to turn on a ledstrip at a certain time based on data from a Dutch public transport api: NS Reisinformatie API. <br>
+My challenge was to turn on a ledstrip at a certain time based on data from a Dutch public transport API: NS Reisinformatie API. <br>
 The first step is to make the ledstrip turn on at a certain time, for example 09.00 AM. :clock9: <br>
 After that I want the ledstrip to turn on 10 minutes earlier when there is a calamity, disruption or maintenance in public transport. :construction:
 
