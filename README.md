@@ -13,14 +13,14 @@ After that I want the ledstrip to turn on 10 minutes earlier when there is a cal
 - Arduino IDE & Wifi (not 5G)
 
 ## 1. Turning on the ledstrip :bulb:
-I changed my pin to D5 and my number of pixels to 14. I you haven't connected you ledstrip yet, this is how I did it:
+If you haven't connected you ledstrip yet, this is how I did it:
 The 5V wire goes to 3V3, the GND wire goed to GND, and the middle wire (Din) goes to D5.
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/wires.PNG" width=40% height=40%> 
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/IMG_20221026_122143.jpg" width=20% height=20%>
 
-First I uploaded the example code Simple from Adafruit Neopixel to my board to test whether my ledstrip turns on.
+First I uploaded the example code Simple from Adafruit Neopixel to my board to test whether my ledstrip turns on. I changed my pin to D5 and my number of pixels to 14. 
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/example2.PNG" width=60% height=60%> <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/IMG_20221026_122045.jpg" width=30% height=30%>
 
