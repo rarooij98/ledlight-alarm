@@ -252,7 +252,7 @@ The NS API uses a Ocp-Apim-Subscription-Key, so the way I did it was:
 http.addHeader("Ocp-Apim-Subscription-Key", key, true);
 ```
 
-Now I get access to the data! Finally a 200 message! :tada: :partying_face:
+**Now I get access to the data! Finally a 200 message!** :tada: :partying_face:
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/200finally.PNG" width=100% height=100%>
 
