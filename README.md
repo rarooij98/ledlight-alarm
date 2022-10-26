@@ -56,8 +56,41 @@ It printed this info to the Serial Monitor:
 
 Great! :tada:
 
-Now I have to set this data as conditions for the ledstrip to turn on.
+Now I have to set this data as conditions for the ledstrip to turn on. I did this by writing an if-statement.
 
+If I want to turn on the lights at 09.00 AM, I should write in the if-statament: 
+
+```
+if (localTime.tm_hour == 9) {...}
+```
+
+When I run this code, the lights will go on at the set time and also print out the current time:
+
+```
+    if (localTime.tm_hour == 9) {
+      Serial.print("Time to turn on the lights at: ")
+      Serial.print(localTime.tm_hour);
+      Serial.print(':');
+      Serial.print(localTime.tm_min);
+
+      for(int i=0; i<NUM_PIXELS; i++) {
+        pixels.setPixelColor(i, pixels.Color(255, 255, 255));
+        pixels.show();
+        delay(1000);
+      }
+    }
+```
+To test the code I put in the current time + 1 min like this:
+
+```
+if (localTime.tm_hour == 14 && localTime.tm_min == 32)
+```
+
+Do the lights go on at the set time?
+
+<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
+
+Yes they do! :tada:
 
 ## 2. Optional: Controlling the ledstrip on the web. :computer:
 Now we can set the ledstrip to a certain time, it would be great if we could also set and change the turn-on time in a web app. 
