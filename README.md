@@ -240,7 +240,7 @@ http.addHeader("Authorization:", "Basic key", true);
 The NS API uses a Ocp-Apim-Subscription-Key, so the way I did it was:
 
 ```
-http.addHeader("Authorization:", "Basic key", true);
+http.addHeader("Ocp-Apim-Subscription-Key", key, true);
 ```
 
 Now I get access to the data! Finally a 200 message! :tada:
