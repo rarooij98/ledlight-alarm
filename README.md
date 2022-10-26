@@ -16,9 +16,50 @@ After that I want the ledstrip to turn on 10 minutes earlier when there is a cal
 ## 1. Turning on the ledstrip. :bulb:
 The first step is to make the ledstrip turn on at a certain time. How can my ESP know the time?
 
+First I uploaded the example code Simple from Adafruit Neopixel to my board to test whether my ledstrip turns on.
+I changed my pin to D5 and my number of pixels to 14. I you haven't connected you ledstrip yet, this is how I did it:
+
+The 5V wire goes to 3V3, the GND wire goed to GND, and the middle wire (Din) goes to D5.
+
+<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
 <img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
 
-## 2. Controlling the ledstrip on the web. :computer:
+Succes! :tada:
+<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
+
+Next I had to add the time, and to do this I used the Time library by Michael Margolis. I read the documentation for this library here: https://playground.arduino.cc/Code/Time/
+
+I needed to set my timezone & connect to the internet to get the time from the Network Time Protocol (NTP). To test my code I added this function to print the day of the week and current time:
+
+```
+void showTime(tm localTime) {
+  Serial.print(localTime.tm_mday);
+  Serial.print('/');
+  Serial.print(localTime.tm_mon + 1);
+  Serial.print('/');
+  Serial.print(localTime.tm_year - 100);
+  Serial.print('-');
+  Serial.print(localTime.tm_hour);
+  Serial.print(':');
+  Serial.print(localTime.tm_min);
+  Serial.print(':');
+  Serial.print(localTime.tm_sec);
+  Serial.print(" Day of Week ");
+  if (localTime.tm_wday == 0)   Serial.println(7);
+  else Serial.println(localTime.tm_wday);
+}
+```
+
+It printed this info to the Serial Monitor:
+
+<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
+
+Great! :tada:
+
+Now I have to set this data as conditions for the ledstrip to turn on.
+
+
+## 2. Optional: Controlling the ledstrip on the web. :computer:
 Now we can set the ledstrip to a certain time, it would be great if we could also set and change the turn-on time in a web app. 
 
 Adafruit IO / Telegram
@@ -74,6 +115,7 @@ When following the examples listed above, I kept getting this errors about the H
 
 
 ## Sources :card_file_box:
+- https://www.arduino.cc/reference/en/libraries/ds3231/
 - https://www.ns.nl/reisinformatie/ns-api
 - https://www.dfrobot.com/blog-917.html
 - https://www.youtube.com/watch?v=HUjFMVOpXBM
