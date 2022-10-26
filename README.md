@@ -29,10 +29,15 @@ Succes! :tada:
 ## 2. Setting a turn-on time :clock9:
 The next step is to make the ledstrip turn on at a certain time.How can I make my ESP know the time? To do this I used the Time library by Michael Margolis. I read the documentation for this library here: https://playground.arduino.cc/Code/Time/
 
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/time_setup.PNG" width=80% height=80%> <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/time_loop.PNG" width=80% height=80%>
+<br>(I uploaded the full code to this github repo)
+
+### Timezone
 I needed to set my timezone & connect to the internet to get the time from the Network Time Protocol (NTP). You can find your timezone string on this site: https://remotemonitoringsystems.ca/time-zone-abbreviations.php
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/timezone.PNG" width=60% height=60%>
 
+### Print localTime
 To test my code I added this function to print the day of the week and current time:
 
 ```
