@@ -187,6 +187,8 @@ I couldn't figure it out so I decided to use the method of this source: https://
 #include <Arduino_JSON.h>
 ```
 
+This means I used WifiClientSecure instead of EthernetClient & ESP8266HTTPClient instead of HttpClient.
+
 ### Error :triangular_flag_on_post:
 After that I didn't get any error messages anymore but I also couldn't request anything.  
 
