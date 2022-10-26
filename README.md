@@ -101,8 +101,8 @@ Yes they do! :tada:
 We can now set a time for our ledstrip to turn on, just like a real alarm clock. :tada:
 But if we want to make this even more interesting, we should use data from the NS Reisinformatie API.
 
-### Create your NS API account
-To use this API you need to create a free account at https://apiportal.ns.nl/signin and subscribe to their Reisinformatie API. After doing this you can find your api key on your profile page:
+### 3.1 - Create your NS API account
+To use this API you need to create a free account at https://apiportal.ns.nl/signin and subscribe to their Reisinformatie API. After doing this you can find your API key on your profile page:
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/api.PNG" width=40% height=40%> <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/apikey.PNG" width=50% height=50%>
 
@@ -110,10 +110,10 @@ The NS API website has a lot of great code examples, but unfortunately none of t
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/codexamples.PNG" width=50% height=50%>
 
-So I had to look for other sources on how to connect and get data from this api, and I used this manual that explains how to get weather data: https://www.dfrobot.com/blog-917.html. I also watched this video on how to connect to an API using an ESP8266 (or any arduino): https://www.youtube.com/watch?v=HUjFMVOpXBM. This one was very helpful but only covered part of what I needed to do.
+So I had to look for other sources on how to connect and get data from this API, and started with this manual that explains how to get weather data: https://www.dfrobot.com/blog-917.html. I also watched this video on how to connect to an API using an ESP8266: https://www.youtube.com/watch?v=HUjFMVOpXBM. This one was very helpful but only covered part of what I needed to do.
 
-### Connection string & API key
-On the NS API website you can find the connection string for the API you want to connect to. I need to put this string and our api key in our code:
+### 3.2 - Get the connection string & API key
+On the NS API website you can find the connection string for the API you want to connect to. I need to put this string and our API key in my code:
 
 ```
 const String endpoint = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions[?type][&isActive]";
@@ -122,9 +122,9 @@ const String key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
 I will use these endpoint and key variables later in void loop().
 
-### GET request
-Next I needed to do a GET request in the loop. This will get me data about the delays/calamities.
-This is the code I used with the HttpClient library. 
+### 3.3 - Do a GET request
+Next I needed to do a GET request. This will get me data about the delays/calamities.
+I used with the HttpClient library for this. 
 
 ```
 void loop() {
@@ -152,7 +152,6 @@ void loop() {
 ```
 
 ### Error :triangular_flag_on_post:
-
 I kept getting this error about HttpClient:
 #### :rotating_light: No matching function for call to 'HttpClient::HttpClient()'
 
@@ -172,7 +171,6 @@ HttpClient http(c);
 ### Error :triangular_flag_on_post:
 But I still had another error with this library: 
 #### :rotating_light: 'class HttpClient' has no member named 'begin'
-<!--#### :rotating_light: call to 'HTTPClient::begin' declared with attribute error: obsolete API, use ::begin(WiFiClient, url)-->
 
 First I tried deleting and redownloading the library but that didn't do anything.
 I couldn't figure it out so I decided to use the method of this source: https://randomnerdtutorials.com/esp8266-nodemcu-http-get-post-arduino/ and use these libraries instead:
@@ -197,10 +195,65 @@ But something must be wrong, because I cannot request anything and get the 'Erro
 
 <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/httpbegin.PNG" width=50% height=50%> <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/reqerror.PNG" width=40% height=40%>
 
+### Changing my URL
+
+I think I had to change the host URL before trying to GET. 
+
+The URL looks like this: "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions[?type][&isActive]"
+
+But you have to fill in the values for **type** and **isActive**, like this:
+
+"https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions?type=calamity&isActive=true"
+
+I also added the hosts fingerprint, you can use this with WiFiClientSecure as extra verification.
+
+```
+#define HOST_FINGERPRINT "XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX XX"
+client.setFingerprint(HOST_FINGERPRINT);
+```
+
+<img src="" width=50% height=50%> //screenshot fingerprint
+
+### Error :triangular_flag_on_post:
+Now I have a 401 message instead of 404. Something's been found, but I'm not allowed to see it.
+#### :rotating_light: "401 Access denied due to missing subscription key. Make sure to include subscription key when making requests to an API."
+
+<img src="" width=50% height=50%> //screenshot error 401
+
+### Authentication & headers
+
+Maybe there's a problem with my API key? 
+Since I'm not sure how API keys work exactly, I did some research:
+- According to this source: https://blog.stoplight.io/api-keys-best-practices-to-authenticate-apis, there are multiple ways of using an API key. I think NS uses API headers. The headers usually come after the request line or response line. I need to add a header in my code with the authentication key. 
+- I found out on Arduino forum (https://forum.arduino.cc/t/esp8266http-authentication/647375) that I can define my key like this:
+
+```
+http.addHeader("Authorization:", "Basic key", true);
+```
+
+The NS API uses a Ocp-Apim-Subscription-Key, so the way I did it was:
+
+```
+http.addHeader("Authorization:", "Basic key", true);
+```
+
+Now I get access to the data! Finally a 200 message! :tada:
+
+<img src="" width=50% height=50%> //screenshot 200 message
+
+
+### Conclusion
+I could get data from the API but I didn't have time to use it to change the turn-on time for the ledstrip.
+I did manage to turn on the light at a set time. This could make a simple prototype for an alarmclock with ledstrip.
+
 ## Sources :card_file_box:
 - https://playground.arduino.cc/Code/Time/
 - https://remotemonitoringsystems.ca/time-zone-abbreviations.php
 - https://www.ns.nl/reisinformatie/ns-api
 - https://www.dfrobot.com/blog-917.html
 - https://www.youtube.com/watch?v=HUjFMVOpXBM
+- https://forum.arduino.cc/t/no-matching-function-to-call-for-httpclient/688817
 - https://randomnerdtutorials.com/esp8266-nodemcu-http-get-post-arduino/
+- https://blog.stoplight.io/api-keys-best-practices-to-authenticate-apis
+- https://forum.arduino.cc/t/esp8266http-authentication/647375
+- https://learn.microsoft.com/nl-nl/azure/cognitive-services/translator/translator-text-apis?tabs=csharp
