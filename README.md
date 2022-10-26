@@ -97,63 +97,34 @@ Do the lights go on at the set time?
 
 Yes they do! :tada:
 
-## 3. Optional: Controlling the ledstrip on the web. :computer:
-Now we can set the ledstrip to a certain time, it would be great if we could also set and change the turn-on time in a web app. 
-
-Adafruit IO / Telegram
-
-To interact with the Telegram bot I needed to install a library called Universal Telegram Bot Library by Brian Lough. 
-I searched for it in the Arduino Library Manager and installed the lastest version. You can also download the zip file from https://www.arduinolibraries.info/libraries/universal-telegram-bot and include it in your project in the Sketch tab.
-
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=20% height=20%>
-
-### Error :triangular_flag_on_post:
-I couldn't find ...
-
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=25% height=25%>
-
-After installing the library, I copied this code into my sketch:
-
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=30% height=30%>
-
-To make this code work for me I had to insert my Bot token, user ID, and network credentials (SSID and password). 
-
-### What does this code do?
-This code checks for new messages every second, it then also checks the chat_id to see if the message is from you or if it should be ignored. If it's from you, it saves the message in a text variable and checks its content, and when it receives the **/...** message it ... and sends a confirmation message.
-
-## 4. NS Reisinformatie API. :bullettrain_side:
-We can now set a time for out ledstrip to turn on, just like a real alarm clock. :tada:
+## 3. NS Reisinformatie API. :bullettrain_side:
+We can now set a time for our ledstrip to turn on, just like a real alarm clock. :tada:
 But if we want to make this even more interesting, we should use data from the NS Reisinformatie API.
-To use this API you need to create a free account at https://apiportal.ns.nl/signin and subscribe to their Reisinformatie API. After diong this you can find your api key on your profile page.
 
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=30% height=30%>
+### Create your NS API account
+To use this API you need to create a free account at https://apiportal.ns.nl/signin and subscribe to their Reisinformatie API. After doing this you can find your api key on your profile page:
 
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/api.PNG" width=40% height=40%> <img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/apikey.PNG" width=50% height=50%>
+
+### Next step
 The NS API website has a lot of great code examples, but unfortunately none of them are for Arduino/C++.
 
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=30% height=30%>
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/codexamples.PNG" width=50% height=50%>
 
-So I had to look for other sources on how to connect and get data from this api, and I used this manual that explains how to get weather data: https://www.dfrobot.com/blog-917.html.
-
-I also watched this video on how to connect to an API using an ESP8266 (or any arduino): https://www.youtube.com/watch?v=HUjFMVOpXBM. This one was very helpful but only covered part of what I needed to do. 
-
-
-
+So I had to look for other sources on how to connect and get data from this api, and I used this manual that explains how to get weather data: https://www.dfrobot.com/blog-917.html. I also watched this video on how to connect to an API using an ESP8266 (or any arduino): https://www.youtube.com/watch?v=HUjFMVOpXBM. This one was very helpful but only covered part of what I needed to do.
 
 ### Error :triangular_flag_on_post:
 
-When following the examples listed above, I kept getting this errors about the HttpCLient librarcy:
+When following the examples listed above, I kept getting errors about the HttpClient library:
+#### :rotating_light: No matching function for call to 'HttpClient::HttpClient()'
+#### :rotating_light: 'HttpClient' was not declared in this scope 
+#### :rotating_light: ...
 
-<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/" width=30% height=30%>
-
-
-#### :rotating_light: Problem 1
-
-
-#### :rotating_light: Problem 2 
-
+<img src="https://github.com/rarooij98/ledlight-alarm/blob/main/images/error0.PNG" width=75% height=75%>
 
 ## Sources :card_file_box:
-- https://www.arduino.cc/reference/en/libraries/ds3231/
+- https://playground.arduino.cc/Code/Time/
+- https://remotemonitoringsystems.ca/time-zone-abbreviations.php
 - https://www.ns.nl/reisinformatie/ns-api
 - https://www.dfrobot.com/blog-917.html
 - https://www.youtube.com/watch?v=HUjFMVOpXBM
